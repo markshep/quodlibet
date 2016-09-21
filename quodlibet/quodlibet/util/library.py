@@ -65,7 +65,8 @@ def scan_library(library, force):
     paths = get_scan_dirs()
     exclude = split_scan_dirs(config.get("library", "exclude"))
     exclude = [bytes2fsn(e, "utf-8") for e in exclude]
-    copool.add(library.rebuild, paths, force, exclude,
+    scan_dots = config.getboolean("library", "scan_dots")
+    copool.add(library.rebuild, paths, force, exclude, scan_dots,
                cofuncid="library", funcid="library")
 
 

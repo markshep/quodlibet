@@ -637,8 +637,10 @@ class PreferencesWindow(UniqueWindow):
             self.set_border_width(12)
             self.title = _("Library")
 
-            cb = CCB(_("Scan library _on start"),
-                     "library", "refresh_on_start", populate=True)
+            scan_cb = CCB(_("Scan library _on start"),
+                          "library", "refresh_on_start", populate=True)
+            dots_cb = CCB(_("Scan directories starting with \".\""),
+                          "library", "scan_dots", populate=True)
             scan_dirs = ScanBox()
 
             vb3 = Gtk.VBox(spacing=6)
@@ -661,8 +663,9 @@ class PreferencesWindow(UniqueWindow):
                   "This can take a long time."))
 
             grid = Gtk.Grid(column_spacing=6, row_spacing=6)
-            cb.props.hexpand = True
-            grid.attach(cb, 0, 0, 1, 1)
+            scan_cb.props.hexpand = True
+            grid.attach(scan_cb, 0, 0, 1, 1)
+            grid.attach(dots_cb, 0, 1, 1, 1)
             grid.attach(refresh, 1, 0, 1, 1)
             grid.attach(reload_, 1, 1, 1, 1)
 

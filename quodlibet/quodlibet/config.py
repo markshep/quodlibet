@@ -37,6 +37,7 @@ INITIAL = {
     "library": {
         "exclude": "",
         "refresh_on_start": "true",
+        "scan_dots": "false",
     },
     # State about the player, to restore on startup
     "memory": {

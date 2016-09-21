@@ -636,7 +636,7 @@ class FileLibrary(PicklingLibrary):
             else:
                 removed.add(item)
 
-    def rebuild(self, paths, force=False, exclude=[], cofuncid=None):
+    def rebuild(self, paths, force=False, exclude=[], scan_dots=False, cofuncid=None):
         """Reload or remove songs if they have changed or been deleted.
 
         This generator rebuilds the library over the course of iteration.
@@ -688,7 +688,7 @@ class FileLibrary(PicklingLibrary):
         if changed:
             self.emit('changed', changed)
 
-        for value in self.scan(paths, exclude, cofuncid):
+        for value in self.scan(paths, exclude, scan_dots, cofuncid):
             yield value
 
     def add_filename(self, filename, add=True):
@@ -698,7 +698,7 @@ class FileLibrary(PicklingLibrary):
         """
         raise NotImplementedError
 
-    def scan(self, paths, exclude=[], cofuncid=None):
+    def scan(self, paths, exclude=[], scan_dots=False, cofuncid=None):
         added = []
         exclude = [expanduser(path) for path in exclude if path]
 
@@ -726,7 +726,16 @@ class FileLibrary(PicklingLibrary):
                 if filter(fullpath.startswith, exclude):
                     continue
                 for path, dnames, fnames in os.walk(fullpath):
+                    if not scan_dots:
+                        index = 0
+                        while index < len(dnames):
+                            if dnames[index].startswith('.'):
+                                del(dnames[index])
+                            else:
+                                index += 1
                     for filename in fnames:
+                        if not scan_dots and filename.startswith('.'):
+                            continue
                         fullfilename = os.path.join(path, filename)
                         if filter(fullfilename.startswith, exclude):
                             continue
