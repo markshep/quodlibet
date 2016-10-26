@@ -240,7 +240,7 @@ def print_d(string, context=None):
 def print_w(string, context=None):
     """Print warnings"""
 
-    _print_message(string, context, True, "W", "yellow", "warnings")
+    _print_message(string, context, False, "W", "yellow", "warnings")
 
 
 def print_e(string, context=None):
